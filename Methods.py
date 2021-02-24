@@ -8,7 +8,7 @@ def function(x):
 
 
 def bisection_method(a, b, eps, filename):
-    numberOfCalc = 0
+    number_of_calc = 0
     current_lenght = b - a
     report = InitReport(filename)
     handle = report.get_handle()
@@ -21,7 +21,7 @@ def bisection_method(a, b, eps, filename):
         f2 = function(x2)
         i: int = 0
 
-        numberOfCalc += 2
+        number_of_calc += 2
 
         if (f1 < f2):
             b = x2
@@ -34,11 +34,11 @@ def bisection_method(a, b, eps, filename):
 
         current_lenght = b - a
 
-    return numberOfCalc, (a + b) / 2
+    return number_of_calc, (a + b) / 2
 
 
 def golden_ratio(a, b, eps, filename):
-    numberOfCalc = 0
+    number_of_calc = 0
     current_lenght = b - a
     report = InitReport(filename)
     handle = report.get_handle()
@@ -52,7 +52,7 @@ def golden_ratio(a, b, eps, filename):
     i: int = 0
 
     while (abs(a - b) > eps):
-        numberOfCalc += 1
+        number_of_calc += 1
 
         if (f1 < f2):
             b = x2
@@ -73,7 +73,7 @@ def golden_ratio(a, b, eps, filename):
 
         current_lenght = b - a
 
-    return numberOfCalc, a
+    return number_of_calc, a
 
 
 def calc_fibonacci(n: int):
@@ -81,7 +81,7 @@ def calc_fibonacci(n: int):
 
 
 def fibonacci(a, b, eps, filename):
-    numberOfCalc = 0
+    number_of_calc = 0
     current_lenght = b - a
     report = InitReport(filename)
     handle = report.get_handle()
@@ -93,19 +93,19 @@ def fibonacci(a, b, eps, filename):
     f2 = function(x2)
     i: int = 0
 
-    while (abs(a - b) > eps):
-        numberOfCalc += 1
+    while (number_of_calc <= n):
+        number_of_calc += 1
 
         if (f1 < f2):
             b = x2
             x2 = x1
-            x1 = a + calc_fibonacci(n - numberOfCalc - 1) / calc_fibonacci(n - numberOfCalc + 1) * (b - a)
+            x1 = a + calc_fibonacci(n - number_of_calc - 1) / calc_fibonacci(n - number_of_calc + 1) * (b - a)
             f2 = f1
             f1 = function(x1)
         else:
             a = x1
             x1 = x2
-            x2 = a + calc_fibonacci(n - numberOfCalc) / calc_fibonacci(n - numberOfCalc + 1) * (b - a)
+            x2 = a + calc_fibonacci(n - number_of_calc) / calc_fibonacci(n - number_of_calc + 1) * (b - a)
             f1 = f2
             f2 = function(x2)
 
@@ -115,40 +115,41 @@ def fibonacci(a, b, eps, filename):
 
         current_lenght = b - a
 
-    return numberOfCalc, a
+    return number_of_calc, a
 
 
-def search_minimal_segment(x0, eps, filename):
-    numberOfCalc = 0
-    report = InitReport(filename)
-    handle = report.get_handle()
+def search_minimal_segment(x0, eps):
+    number_of_calc = 0
     h: float = 0
-    x1: float = 0
-    x2: float = 0
-    f0: float = function(x0)
+    first_x: float = x0
+    current_x: float = 0
+    next_x: float = 0
+    first_f: float = function(first_x)
 
-    if f0 > function(x0 + eps):
-        x1 = x0 + eps
+    if first_f > function(first_x + eps):
+        current_x = first_x + eps
         h = eps
-    elif function(x0) > function(x0 - eps):
-        x1 = x0 - eps
+    elif first_f > function(first_x - eps):
+        current_x = first_x - eps
         h = - eps
 
-    x2 = x1 + h
-    f1 = function(x1)
-    f2 = function(x2)
-
-    while f1 > f2:
+    h = 2 * h
+    current_f = function(current_x)
+    next_f = function(current_x + h)
+    while current_f > next_f:
         h = 2 * h
-        numberOfCalc += 1
-        x0 = x1
-        f0 = f1
-        x1 = x2
-        f1 = f2
-        x2 = x1 + h
-        f2 = function(x2)
+        number_of_calc += 1
 
-    print(x0, x1)
+        next_x = current_x + h
+        first_x = current_x
+        current_x = next_x
+
+        current_f = next_f
+        next_f = function(next_x)
+
+    print(first_x, next_x, number_of_calc)
+
+
 
 
 
