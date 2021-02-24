@@ -11,6 +11,7 @@ def bisection_method(a, b, eps, filename):
     number_of_calc = 0
     current_lenght = b - a
     report = InitReport(filename)
+    report.write_title_for_method()
     handle = report.get_handle()
 
     while (abs(a - b) > eps):
@@ -34,6 +35,7 @@ def bisection_method(a, b, eps, filename):
 
         current_lenght = b - a
 
+    report.close_handle()
     return number_of_calc, (a + b) / 2
 
 
@@ -41,6 +43,7 @@ def golden_ratio(a, b, eps, filename):
     number_of_calc = 0
     current_lenght = b - a
     report = InitReport(filename)
+    report.write_title_for_method()
     handle = report.get_handle()
 
     global SQRT5
@@ -73,6 +76,7 @@ def golden_ratio(a, b, eps, filename):
 
         current_lenght = b - a
 
+    report.close_handle()
     return number_of_calc, a
 
 
@@ -84,6 +88,7 @@ def fibonacci(a, b, eps, filename):
     number_of_calc = 0
     current_lenght = b - a
     report = InitReport(filename)
+    report.write_title_for_method()
     handle = report.get_handle()
 
     n = round(log(SQRT5 * (b - a) / eps) / log((1 + SQRT5) / 2))
@@ -115,11 +120,15 @@ def fibonacci(a, b, eps, filename):
 
         current_lenght = b - a
 
+    report.close_handle()
     return number_of_calc, a
 
 
-def search_minimal_segment(x0, eps):
+def search_minimal_segment(x0, eps, filename):
     number_of_calc = 0
+    report = InitReport(filename)
+    report.write_title_for_search()
+    handle = report.get_handle()
     h: float = 0
     first_x: float = x0
     current_x: float = 0
@@ -137,6 +146,7 @@ def search_minimal_segment(x0, eps):
     current_f = function(current_x)
     next_f = function(current_x + h)
     while current_f > next_f:
+        handle.write("{:f}\t{:f}\n".format(current_x, current_f))
         h = 2 * h
         number_of_calc += 1
 
@@ -147,10 +157,5 @@ def search_minimal_segment(x0, eps):
         current_f = next_f
         next_f = function(next_x)
 
+    report.close_handle()
     print(first_x, next_x, number_of_calc)
-
-
-
-
-
-
