@@ -87,6 +87,7 @@ def fibonacci(a, b, eps, filename):
     x2 = a + calc_fibonacci(n + 1) / calc_fibonacci(n + 2) * (b - a)
     f1 = function(x1)
     f2 = function(x2)
+    i:int = 0
 
     while (abs(a - b) > eps):
         numberOfCalc += 1
@@ -104,12 +105,19 @@ def fibonacci(a, b, eps, filename):
             f1 = f2
             f2 = function(x2)
 
-        handle.write("{:f}\t{:f}\t""{:f}\t{:f}\t\t""{:f}\t\t\t{:f}\t\t""{:f}\t\t\t\t{:f}\n"
-                     .format(x1, x2, f1, f2, a, b, current_lenght, current_lenght / (b - a)))
+        i += 1
+        handle.write("{:d}\t{:f}\t{:f}\t""{:f}\t{:f}\t\t""{:f}\t\t\t{:f}\t\t""{:f}\t\t\t\t{:f}\n"
+                     .format(i, x1, x2, f1, f2, a, b, current_lenght, current_lenght / (b - a)))
 
         current_lenght = b - a
 
     return numberOfCalc, a
+
+
+def search_minimal_segment(x0, filename):
+    numberOfCalc = 0
+    report = InitReport(filename)
+    handle = report.get_handle()
 
 
 
