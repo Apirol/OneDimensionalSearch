@@ -68,7 +68,7 @@ def golden_ratio(a, b, eps, filename):
             f2 = function(x2)
 
         i += 1
-        handle.write("{:d}\t{:f}\t{:f}\t""{:f}\t{:f}\t\t""{:f}\t\t\t{:f}\t\t""{:f}\t\t\t\t{:f}\n"
+        handle.write("{:d}\t{:f}\t{:f}\t""{:f}\t{:f}\t""{:f}\t{:f}\t""{:f}\t{:f}\n"
                      .format(i, x1, x2, f1, f2, a, b, current_lenght, current_lenght / (b - a)))
 
         current_lenght = b - a
@@ -91,7 +91,7 @@ def fibonacci(a, b, eps, filename):
     x2 = a + calc_fibonacci(n + 1) / calc_fibonacci(n + 2) * (b - a)
     f1 = function(x1)
     f2 = function(x2)
-    i:int = 0
+    i: int = 0
 
     while (abs(a - b) > eps):
         numberOfCalc += 1
@@ -118,10 +118,37 @@ def fibonacci(a, b, eps, filename):
     return numberOfCalc, a
 
 
-def search_minimal_segment(x0, filename):
+def search_minimal_segment(x0, eps, filename):
     numberOfCalc = 0
     report = InitReport(filename)
     handle = report.get_handle()
+    h: float = 0
+    x1: float = 0
+    x2: float = 0
+    f0: float = function(x0)
+
+    if f0 > function(x0 + eps):
+        x1 = x0 + eps
+        h = eps
+    elif function(x0) > function(x0 - eps):
+        x1 = x0 - eps
+        h = - eps
+
+    x2 = x1 + h
+    f1 = function(x1)
+    f2 = function(x2)
+
+    while f1 > f2:
+        h = 2 * h
+        numberOfCalc += 1
+        x0 = x1
+        f0 = f1
+        x1 = x2
+        f1 = f2
+        x2 = x1 + h
+        f2 = function(x2)
+
+    print(x0, x1)
 
 
 
