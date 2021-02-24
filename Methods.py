@@ -9,6 +9,7 @@ def function(x):
 
 def bisection_method(a, b, eps, filename):
     numberOfCalc = 0
+    current_lenght = b - a
     report = InitReport(filename)
     handle = report.get_handle()
 
@@ -26,7 +27,7 @@ def bisection_method(a, b, eps, filename):
         else:
             a = x1
 
-        handle.write("{:f}\t{:f}\t""{:f}\t{:f}\t\t""{:f}\t\t\t{:f}\t\t""{:f}\t\t\t\t{:f}\n".format(x1, x2, f1, f2, a, b,
+        handle.write("{:f}\t{:f}\t""{:f}\t{:f}\t""{:f}\t{:f}\t""{:f}\t{:f}\n".format(x1, x2, f1, f2, a, b,
                                        current_lenght, current_lenght / (b - a)))
 
         current_lenght = b - a
