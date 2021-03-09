@@ -1,7 +1,9 @@
 from math import sqrt, log
-from Init import InitReport
+from file_init import FileInit
+import numpy as np
 
 SQRT5 = sqrt(5)
+
 
 def function(x):
     return pow(x - 8, 2)
@@ -9,12 +11,12 @@ def function(x):
 
 def bisection_method(a, b, eps, filename):
     number_of_calc = 0
-    current_lenght = b - a
-    report = InitReport(filename)
+    current_length = b - a
+    report = FileInit(filename)
     report.write_title_for_method()
     handle = report.get_handle()
 
-    while (abs(a - b) > eps):
+    while abs(a - b) > eps:
         x1 = (a + b - eps / 2) / 2
         x2 = (a + b + eps / 2) / 2
 
@@ -24,14 +26,14 @@ def bisection_method(a, b, eps, filename):
 
         number_of_calc += 2
 
-        if (f1 < f2):
+        if f1 < f2:
             b = x2
         else:
             a = x1
 
         i += 1
         handle.write("{:d}\t{:f}\t{:f}\t""{:f}\t{:f}\t""{:f}\t{:f}\t""{:f}\t{:f}\n".format(i, x1, x2, f1, f2, a, b,
-                                       current_lenght, current_lenght / (b - a)))
+                                       current_length, current_length / (b - a)))
 
         current_lenght = b - a
 
@@ -41,8 +43,8 @@ def bisection_method(a, b, eps, filename):
 
 def golden_ratio(a, b, eps, filename):
     number_of_calc = 0
-    current_lenght = b - a
-    report = InitReport(filename)
+    current_length = b - a
+    report = FileInit(filename)
     report.write_title_for_method()
     handle = report.get_handle()
 
@@ -54,10 +56,10 @@ def golden_ratio(a, b, eps, filename):
     f2 = function(x2)
     i: int = 0
 
-    while (abs(a - b) > eps):
+    while abs(a - b) > eps:
         number_of_calc += 1
 
-        if (f1 < f2):
+        if f1 < f2:
             b = x2
             x2 = x1
             x1 = a + (3 - SQRT5) / 2 * (b - a)
@@ -72,61 +74,68 @@ def golden_ratio(a, b, eps, filename):
 
         i += 1
         handle.write("{:d}\t{:f}\t{:f}\t""{:f}\t{:f}\t""{:f}\t{:f}\t""{:f}\t{:f}\n"
-                     .format(i, x1, x2, f1, f2, a, b, current_lenght, current_lenght / (b - a)))
+                     .format(i, x1, x2, f1, f2, a, b, current_length, current_length / (b - a)))
 
-        current_lenght = b - a
+        current_length = b - a
 
     report.close_handle()
     return number_of_calc, a
 
 
-def calc_fibonacci(n: int):
-    return pow((1 + SQRT5) / 2, n) / SQRT5
+def read_massive(filename):
+    return np.loadtxt(filename, dtype=np.int)
 
 
 def fibonacci(a, b, eps, filename):
+    FIBONACCI = read_massive("fibonacci_numbers.txt")
+    n: int = 0
     number_of_calc = 0
-    current_lenght = b - a
-    report = InitReport(filename)
+    current_length = b - a
+    report = FileInit(filename)
     report.write_title_for_method()
     handle = report.get_handle()
 
-    n = round(log(SQRT5 * (b - a) / eps) / log((1 + SQRT5) / 2))
-    x1 = a + calc_fibonacci(n) / calc_fibonacci(n + 2) * (b - a)
-    x2 = a + calc_fibonacci(n + 1) / calc_fibonacci(n + 2) * (b - a)
+    while FIBONACCI[n] <= current_length / eps:
+        n += 1
+
+    n -= 2
+    print("Число n = " + str(n))
+    x1 = a + FIBONACCI[n] / FIBONACCI[n + 2] * (b - a)
+    x2 = a + b - x1
     f1 = function(x1)
     f2 = function(x2)
     i: int = 0
 
-    while (number_of_calc <= n):
-        number_of_calc += 1
+    while number_of_calc < n:
 
-        if (f1 < f2):
+        if f1 < f2:
             b = x2
             x2 = x1
-            x1 = a + calc_fibonacci(n - number_of_calc - 1) / calc_fibonacci(n - number_of_calc + 1) * (b - a)
+            x1 = a + FIBONACCI[n - number_of_calc + 1] / FIBONACCI[n - number_of_calc + 3] * (b - a)
             f2 = f1
             f1 = function(x1)
         else:
             a = x1
             x1 = x2
-            x2 = a + calc_fibonacci(n - number_of_calc) / calc_fibonacci(n - number_of_calc + 1) * (b - a)
+            x2 = a + FIBONACCI[n - number_of_calc + 2] / FIBONACCI[n - number_of_calc + 3] * (b - a)
             f1 = f2
             f2 = function(x2)
 
+        number_of_calc += 1
         i += 1
-        handle.write("{:d}\t{:f}\t{:f}\t""{:f}\t{:f}\t\t""{:f}\t\t\t{:f}\t\t""{:f}\t\t\t\t{:f}\n"
-                     .format(i, x1, x2, f1, f2, a, b, current_lenght, current_lenght / (b - a)))
+        handle.write("{:d}\t{:f}\t{:f}\t""{:f}\t{:f}\t""{:f}\t{:f}\t""{:f}\t{:f}\n"
+                     .format(i, x1, x2, f1, f2, a, b, current_length, current_length / (b - a)))
 
-        current_lenght = b - a
+        current_length = b - a
 
     report.close_handle()
+    print(x1, x2)
     return number_of_calc, a
 
 
 def search_minimal_segment(x0, eps, filename):
     number_of_calc = 0
-    report = InitReport(filename)
+    report = FileInit(filename)
     report.write_title_for_search()
     handle = report.get_handle()
     h: float = 0
