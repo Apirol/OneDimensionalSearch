@@ -1,4 +1,4 @@
-from math import sqrt, log
+from math import sqrt
 from file_init import FileInit
 import numpy as np
 
@@ -35,7 +35,7 @@ def bisection_method(a, b, eps, filename):
         handle.write("{:d}\t{:f}\t{:f}\t""{:f}\t{:f}\t""{:f}\t{:f}\t""{:f}\t{:f}\n".format(i, x1, x2, f1, f2, a, b,
                                        current_length, current_length / (b - a)))
 
-        current_lenght = b - a
+        current_length = b - a
 
     report.close_handle()
     return number_of_calc, (a + b) / 2
@@ -95,10 +95,10 @@ def fibonacci(a, b, eps, filename):
     report.write_title_for_method()
     handle = report.get_handle()
 
-    while FIBONACCI[n] <= current_length / eps:
+    while FIBONACCI[n] < current_length / eps:
         n += 1
 
-    n -= 2
+    n -= 3
     print("Число n = " + str(n))
     x1 = a + FIBONACCI[n] / FIBONACCI[n + 2] * (b - a)
     x2 = a + b - x1
@@ -167,4 +167,4 @@ def search_minimal_segment(x0, eps, filename):
         next_f = function(next_x)
 
     report.close_handle()
-    print(first_x, next_x, number_of_calc)
+   ## print(first_x, next_x, number_of_calc)
