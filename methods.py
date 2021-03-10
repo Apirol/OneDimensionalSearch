@@ -106,8 +106,8 @@ def fibonacci(a, b, eps, filename):
     f2 = function(x2)
     i: int = 0
 
-    while number_of_calc < n:
-
+    while number_of_calc <= n:
+        number_of_calc += 1
         if f1 < f2:
             b = x2
             x2 = x1
@@ -121,7 +121,6 @@ def fibonacci(a, b, eps, filename):
             f1 = f2
             f2 = function(x2)
 
-        number_of_calc += 1
         i += 1
         handle.write("{:d}\t{:f}\t{:f}\t""{:f}\t{:f}\t""{:f}\t{:f}\t""{:f}\t{:f}\n"
                      .format(i, x1, x2, f1, f2, a, b, current_length, current_length / (b - a)))
